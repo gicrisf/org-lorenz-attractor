@@ -41,17 +41,30 @@ echo $VIRTUAL_ENV
 which python
 #+END_SRC
 
-Check the version of matplotlib running this other block:
+Check the version of the libraries running this other block:
 
 #+begin_src python :results output
+import numpy
+print(numpy.__version__)
+
 import matplotlib
 print(matplotlib.__version__)
+
+import scipy
+print(scipy.__version__)
 #+end_src
 
 #+RESULTS:
+: 1.23.4
 : 3.6.1
+: 1.9.3
 
-I'm using =3.6.1= for this demo. You could try with other versions, but keep in mind that APIs may change. Now you can import the libraries and go to the interesting part of this file.
+For this demo, I'm using:
+- Numpy =1.23.4=
+- Matplotlib =3.6.1=
+- Scipy =1.9.3=
+
+You could try with other versions, but keep in mind that APIs may change (especially when it comes to Matplotlib). Now you can import the right modules and go to the interesting part of this file.
 
 #+begin_src python :session main :results output
 try:
