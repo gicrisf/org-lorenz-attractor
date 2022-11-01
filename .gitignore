@@ -7,6 +7,7 @@ venv/
 .auctex-auto
 *-unstable.pdf
 
+*.pdf
 *.tex
 *.xml
 *.lof

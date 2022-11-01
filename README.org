@@ -1,12 +1,21 @@
-#+title: Lorenz Attractor
+#+title: Literate plotting of a Lorenz Attractor with Python/Org-mode
 #+author: Giovanni Crisalfi
+#+hugo_base_dir: ~/zwitterio-it/
+#+hugo_section: 2022/literate-plotting-of-a-lorenz-attractor-with-python-org-mode
+#+hugo_auto_set_lastmod: t
+#+hugo_tags: org emacs python
+#+hugo_categories: software posts
+#+STARTUP: overview
+#+MACRO: more @@html:<!-- more -->@@
+
+Let's explore the shape of the Lorenz attractor with Python in Org mode/Emacs. Because why not.
+
+{{{more}}}
 
 * Intro
 #+begin_quote
 The Lorenz system is a system of ordinary differential equations first studied by mathematician and meteorologist Edward Lorenz. It is notable for having chaotic solutions for certain parameter values and initial conditions. In particular, the Lorenz attractor is a set of chaotic solutions of the Lorenz system. In popular media the "butterfly effect" stems from the real-world implications of the Lorenz attractor, namely that in a chaotic physical system, in the absence of perfect knowledge of the initial conditions (even the minuscule disturbance of the air due to a butterfly flapping its wings), our ability to predict its future course will always fail. This underscores that physical systems can be completely deterministic and yet still be inherently unpredictable. The shape of the Lorenz attractor itself, when plotted in phase space, may also be seen to resemble a butterfly. [fn::Source: [[https://en.wikipedia.org/wiki/Lorenz_system][Wikipedia]]]
 #+end_quote
-
-Let's explore the shape of the Lorenz attractor with Python in Org mode/Emacs. Because why not.
 
 * Python environment
 As we had chosen Python, we need to import some python libraries:
@@ -14,7 +23,7 @@ As we had chosen Python, we need to import some python libraries:
 - Scipy
 - Matplotlib
 
-We could install them globally with pip, but I prefer setting up a virtual environment. It's up to you, this script works both ways, but the second one require a couple of additional steps. Basically you have to:
+We could install them globally with pip, but I prefer setting up a virtual environment. It's up to you, this script works both ways, but the second one requires a couple of additional steps. Basically you have to:
 - Create the new venv
 - Install the packages inside the venv
 - Access the venv from inside Emacs
@@ -24,15 +33,17 @@ I assume you know how to do the first two steps. About accessing the virtual env
 Now, you should tell Emacs' pyvenv where is our venv. Let's say our venv is placed in =~/org-lorenz-attractor/venv=,
 
 #+BEGIN_SRC elisp :session main :results silent
-(pyvenv-activate "~/org-lorenz-attractor/venv")
+(pyvenv-activate "~/Projects/org-lorenz-attractor/venv")
 #+END_SRC
+
+Launching the next block, you will see if =pyvenv= did his job right. If the python binaries are of the path indicated for the venv, that means you are in the good direction.
 
 #+BEGIN_SRC sh :session main :results silent
 echo $VIRTUAL_ENV
 which python
 #+END_SRC
 
-Check the version of matplotlib:
+Check the version of matplotlib running this other block:
 
 #+begin_src python :results output
 import matplotlib
@@ -42,8 +53,7 @@ print(matplotlib.__version__)
 #+RESULTS:
 : 3.6.1
 
-I'm using =3.6.1= for this demo. You could try with other versions, but keep in mind that APIs may change.
-Now you can import the libraries and go to the interesting part of this file.
+I'm using =3.6.1= for this demo. You could try with other versions, but keep in mind that APIs may change. Now you can import the libraries and go to the interesting part of this file.
 
 #+begin_src python :session main :results output
 try:
@@ -60,6 +70,8 @@ except Exception as e:
 #+RESULTS:
 : Success.
 
+You should get =Success.= by running this last block of the chapter. If you don't, try to solve the error that gets printed out.
+
 * Math
 The Lorenz system of coupled, ordinary, first-order differential equations have chaotic solutions for certain parameter values $\sigma$, $\rho$ and $\beta$ and initial conditions, $u(0)$, $v(0)$ and $\omega (0)$. [fn::Source: [[https://scipython.com/blog/the-lorenz-attractor/][Scipython]]]
 
@@ -69,11 +81,11 @@ $$ \frac{dv}{dt} = \rho u - v - u \omega $$
 
 $$ \frac{d \omega}{dt} = uv - \beta \omega $$
 
-Translating the math in code, you should:
-- Declare the parameters
-- Wrote off the equations as a function
-- Integrate for the assigned parameters using =scipy=
-- Interpolate the solution
+As explained in this [[https://scipython.com/blog/the-lorenz-attractor/][Scipython blog post]], you can translate the math in code by:
+- Declaring the parameters;
+- Writing off the equations as a function;
+- Integrating for the assigned parameters using =scipy=;
+- Interpolating the solution.
 
 #+begin_src python :session main
 # Lorenz paramters and initial conditions.
@@ -103,12 +115,12 @@ x, y, z = soln.sol(t)
 #+RESULTS:
 
 * Plot
-Now, with the already imported matplotlib, we have to create the actual image of the Lorenz attractor.
+Now, we have to create the actual image of the Lorenz attractor.
 Plot the points you gained from interpolation with Matplotlib.
 
 #+begin_quote
 N.B. 'k' is just a single character shorthand notation for the black color.
-Check [[https://matplotlib.org/stable/tutorials/colors/colors.html][the docs]] if you want to change it.
+Check [[https://matplotlib.org/stable/tutorials/colors/colors.html][the docs of Matplotlib]] if you want to learn how to change it and what the options are.
 #+end_quote
 
 #+begin_src python :session main :results output
@@ -146,8 +158,6 @@ except Exception as e:
 #+end_src
 
 #+RESULTS:
-: /tmp/babel-wvqJev/python-sFooTU:25: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
-:   plt.show()
 : Success.
 
 #+Caption: The output image
